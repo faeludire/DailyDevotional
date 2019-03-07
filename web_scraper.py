@@ -15,7 +15,6 @@ def devotional_content_retrieval():
         'href']
 
     devotional_url = website_url_base + devotional_url
-    print(devotional_url)
 
     devotional_conclusion = extract_devotional_conclusion(devotional_url)
 
