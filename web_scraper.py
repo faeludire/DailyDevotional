@@ -16,19 +16,27 @@ def devotional_content_retrieval():
 
     devotional_url = website_url_base + devotional_url
 
-    devotional_conclusion = extract_devotional_conclusion(devotional_url)
+    devotional_conclusion = extract_devotional_details(devotional_url)
 
-    links = 'Find out more: ' + devotional_url + '\n' + 'Audio version: ' + sound_cloud_link
-    tweet_lines = [devotional_conclusion, links]
+    links = devotional_url + '\n' + 'Audio version: ' + sound_cloud_link
+    first_tweet = devotional_conclusion[0] + '\n' + links
+
+    tweet_lines = [first_tweet] + devotional_conclusion[1:]
 
     return tweet_lines
 
 
-def extract_devotional_conclusion(devotional_url):
+def extract_devotional_details(devotional_url):
     devotional_content = requests.get(devotional_url)
     souped = BeautifulSoup(devotional_content.text, 'html.parser')
 
-    conclusion = souped.find_all("h4")[3].find_next('p')
+    title = souped.find_all('h2')[0]
+    title = re.sub("<.*?>", "", str(title)).strip()
+
+    conclusion = souped.find_all(class_="article-content blog")[0].find_all('h4')[0].find_previous_siblings()[0]
     conclusion = re.sub("<.*?>", "", str(conclusion)).strip()
 
-    return conclusion
+    conclusion1 = souped.find_all("h4")[3].find_next('p')
+    conclusion1 = re.sub("<.*?>", "", str(conclusion1)).strip()
+
+    return [title, conclusion, conclusion1]
