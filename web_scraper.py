@@ -11,8 +11,7 @@ def devotional_content_retrieval():
     page = requests.get(website_devotional_url)
     souped = BeautifulSoup(page.text, 'html.parser')
 
-    devotional_url = souped.find_all(class_="side-categories recent-side-list")[0].find('a', href=re.compile('^'))[
-        'href']
+    devotional_url = souped.find_all(class_="article-body")[0].find_all('a', href=True)[0]['href']
 
     devotional_url = website_url_base + devotional_url
 
