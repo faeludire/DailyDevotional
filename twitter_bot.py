@@ -15,7 +15,11 @@ def tweet_devotional():
     tweet_lines = devotional_content_retrieval()
 
     print(tweet_lines[0])
-    last_tweet = api.update_status(tweet_lines[0])
+    try:
+        last_tweet = api.update_status(tweet_lines[0])
+    except tweepy.TweepError as e:
+        print(e.reason)
+        return [e.reason]
 
     # create a loop to iterate over lines
     for tweet_line in tweet_lines[1:]:
@@ -25,3 +29,5 @@ def tweet_devotional():
         except tweepy.TweepError as e:
             print(e.reason)
         time.sleep(10)
+
+    return tweet_lines
