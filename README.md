@@ -1,5 +1,5 @@
 # DailyDevotional
-This project scrapes the latest devotional from apostolicfaith.org/daily-devotional/ and tweets updates everyday.
+This project scrapes the latest devotional from http://apostolicfaith.org/daily-devotional and tweets updates everyday.
 
 ## To run an instance of this app, you need:
 
